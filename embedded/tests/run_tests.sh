@@ -21,5 +21,7 @@ gcc -Wall -Wextra -Werror \
     embedded/src/features.c \
     -lm \
     -o /tmp/test_sensor_features
+/tmp/test_sensor_features
 
+/tmp/test_sensor_features
 /tmp/test_sensor_features
