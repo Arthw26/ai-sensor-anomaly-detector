@@ -7,18 +7,25 @@ with open(input_file, "r") as infile, open(output_file, "w", newline="") as outf
     reader = csv.reader(infile)
     writer = csv.writer(outfile)
 
-    writer.writerow(["sample", "temperature", "current", "label"])
+    writer.writerow(["sample", "temperature", "current", "vibration", "label"])
 
     for row in reader:
-        if len(row) != 4 or row[0] != "DATA":
+        if len(row) != 5 or row[0] != "DATA":
             continue
 
         sample = int(row[1])
         temperature = float(row[2])
         current = float(row[3])
+        vibration = float(row[4])
 
-        label = 1 if (8 <= sample <= 12) or (20 <= sample <= 24) else 0
+        label = 1 if (14 <= sample <= 33) or (40 <= sample <= 49) or (30 <= sample <= 34) else 0
 
-        writer.writerow([sample, temperature, current, label])
+        writer.writerow([
+            sample,
+            temperature,
+            current,
+            vibration,
+            label
+        ])
 
 print(f"Created {output_file}")

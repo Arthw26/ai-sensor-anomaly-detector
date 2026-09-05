@@ -14,7 +14,12 @@ int main(void)
         sample++;
         printk("DATA,%d,", sample);
         sensor_task();
-        k_sleep(K_SECONDS(1));
+
+        if (sample >= 300) {
+            break;
+        }
+
+        k_sleep(K_NO_WAIT);
     }
 
     return 0;

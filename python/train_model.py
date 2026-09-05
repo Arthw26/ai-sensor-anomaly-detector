@@ -14,10 +14,11 @@ with open("python/data/training_data.csv", "r") as f:
         data.append({
             "temperature": float(row["temperature"]),
             "current": float(row["current"]),
+            "vibration": float(row["vibration"]),
             "label": int(row["label"])
         })
 
-X = [[d["temperature"], d["current"]] for d in data]
+X = [[d["temperature"], d["current"], d["vibration"]] for d in data]
 y = [d["label"] for d in data]
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -29,7 +30,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 model = DecisionTreeClassifier(
-    max_depth=2,
+    max_depth=3,
     random_state=42
 )
 
