@@ -1,21 +1,30 @@
 import re
 import subprocess
+from pathlib import Path
 
-COMMAND = [
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ELF = PROJECT_ROOT / "build_riscv" / "zephyr" / "zephyr.elf"
+RESC = PROJECT_ROOT / "renode" / "anomaly_detector.resc"
+
+if not ELF.exists():
+    raise FileNotFoundError(f"Renode ELF not found: {ELF}")
+
+if not RESC.exists():
+    raise FileNotFoundError(f"Renode script not found: {RESC}")
+
+command = [
     "renode",
     "--plain",
     "--disable-xwt",
     "-e",
-    '$elf="/home/embedded/ai_sensor_anomaly_detector/build_riscv/zephyr/zephyr.elf"; '
-    'include @/home/embedded/ai_sensor_anomaly_detector/renode/anomaly_detector.resc; '
-    "sleep 3; quit",
+    f'$elf="{ELF}"; include @{RESC}; sleep 3; quit',
 ]
 
 result = subprocess.run(
-    COMMAND,
+    command,
     capture_output=True,
     text=True,
-    timeout=10,
+    timeout=30,
 )
 
 output = result.stdout + result.stderr
@@ -45,6 +54,9 @@ for line in output.splitlines():
             "sample": int(match.group(1)),
             "prediction": int(match.group(2)),
         })
+
+if not rows:
+    raise RuntimeError("No DATA samples found")
 
 
 def expected_label(sample):
