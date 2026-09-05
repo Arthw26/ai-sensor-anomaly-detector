@@ -2,11 +2,8 @@
 #include <zephyr/random/random.h>
 #include <zephyr/sys/printk.h>
 
-struct sensor_data {
-    float temperature;
-    float current;
-    float vibration;
-};
+#include "sensor.h"
+
 
 static int temp_start;
 static int current_start;

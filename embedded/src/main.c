@@ -2,14 +2,8 @@
 #include <zephyr/sys/printk.h>
 
 #include "ml_inference.h"
+#include "sensor.h"
 
-struct sensor_data {
-    float temperature;
-    float current;
-    float vibration;
-};
-
-struct sensor_data sensor_task(int sample);
 
 int main(void)
 {
