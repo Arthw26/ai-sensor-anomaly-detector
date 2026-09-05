@@ -7,3 +7,19 @@ gcc -Wall -Wextra -Werror \
     -o /tmp/test_ml_inference
 
 /tmp/test_ml_inference
+
+gcc -Wall -Wextra -Werror \
+    embedded/tests/test_features.c \
+    embedded/src/features.c \
+    -lm \
+    -o /tmp/test_features
+
+/tmp/test_features
+
+gcc -Wall -Wextra -Werror \
+    embedded/tests/test_sensor_features.c \
+    embedded/src/features.c \
+    -lm \
+    -o /tmp/test_sensor_features
+
+/tmp/test_sensor_features
