@@ -1,0 +1,12 @@
+.venv/
+build/
+__pycache__/
+*.pyc
+*.o
+*.elf
+*.exe
+*.bin
+*.hex
+.cache/
+.pytest_cache/
+.DS_Store
