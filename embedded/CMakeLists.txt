@@ -5,4 +5,5 @@ project(ai_sensor_anomaly_detector)
 target_sources(app PRIVATE
     src/main.c
     src/sensor.c
+    src/ml_inference.c
 )
