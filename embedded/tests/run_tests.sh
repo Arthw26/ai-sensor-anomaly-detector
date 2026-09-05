@@ -22,6 +22,3 @@ gcc -Wall -Wextra -Werror \
     -lm \
     -o /tmp/test_sensor_features
 /tmp/test_sensor_features
-
-/tmp/test_sensor_features
-/tmp/test_sensor_features

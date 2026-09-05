@@ -36,6 +36,8 @@ int main(void)
             window_index == SENSOR_WINDOW_SIZE - 1) {
             extract_features(&window, features);
 
+            int feature_anomaly = anomaly_predict_features(features);
+
             int temp_mean = (int)(features[0] * 100.0f);
             int temp_max = (int)(features[3] * 100.0f);
             int current_mean = (int)(features[4] * 100.0f);
@@ -54,6 +56,8 @@ int main(void)
                 vibration_max / 100, vibration_max % 100,
                 vibration_rms / 100, vibration_rms % 100
             );
+
+            printk("FEATURE_ANOMALY,%d\n", feature_anomaly);
         }
 
         int temp = (int)(data.temperature * 100.0f);
