@@ -1,0 +1,14 @@
+$name="AI-Sensor-Anomaly-Detector"
+$elf="/home/embedded/ai_sensor_anomaly_detector/build_riscv/zephyr/zephyr.elf"
+
+using sysbus
+
+mach create $name
+machine LoadPlatformDescription @/home/embedded/zephyrproject/zephyr/boards/renode/riscv32_virtual/support/riscv32_virtual.repl
+
+showAnalyzer uart0
+cpu PerformanceInMips 4
+
+sysbus LoadELF $elf
+
+start

@@ -1,9 +1,18 @@
 #include <zephyr/kernel.h>
-#include <zephyr/random/random.h>
 #include <zephyr/sys/printk.h>
 
 #include "sensor.h"
 
+static unsigned int random_state = 0x12345678u;
+
+static unsigned int sensor_random(void)
+{
+    random_state ^= random_state << 13;
+    random_state ^= random_state >> 17;
+    random_state ^= random_state << 5;
+
+    return random_state;
+}
 
 static int temp_start;
 static int current_start;
@@ -16,18 +25,19 @@ static void initialize_fault_windows(void)
         return;
     }
 
-    temp_start = 20 + (sys_rand32_get() % 61);
-    current_start = 100 + (sys_rand32_get() % 81);
-    vibration_start = 200 + (sys_rand32_get() % 61);
+    temp_start = 20 + (sensor_random() % 61);
+    current_start = 100 + (sensor_random() % 81);
+    vibration_start = 200 + (sensor_random() % 61);
 
     initialized = true;
 
-    printk("FAULT_WINDOWS,temp=%d,current=%d,vibration=%d\n", temp_start, current_start, vibration_start);
+    printk("FAULT_WINDOWS,temp=%d,current=%d,vibration=%d\n",
+           temp_start, current_start, vibration_start);
 }
 
 static int sensor_read_temperature(int sample)
 {
-    int noise = (int)(sys_rand32_get() % 31) - 15;
+    int noise = (int)(sensor_random() % 31) - 15;
 
     if (sample >= temp_start && sample < temp_start + 20) {
         return 280 + noise;
@@ -38,7 +48,7 @@ static int sensor_read_temperature(int sample)
 
 static int sensor_read_current(int sample)
 {
-    int noise = (int)(sys_rand32_get() % 81) - 40;
+    int noise = (int)(sensor_random() % 81) - 40;
 
     if (sample >= current_start && sample < current_start + 10) {
         return 580 + noise;
@@ -49,7 +59,7 @@ static int sensor_read_current(int sample)
 
 static int sensor_read_vibration(int sample)
 {
-    int noise = (int)(sys_rand32_get() % 51) - 25;
+    int noise = (int)(sensor_random() % 51) - 25;
 
     if (sample >= vibration_start && sample < vibration_start + 5) {
         return 140 + noise;
